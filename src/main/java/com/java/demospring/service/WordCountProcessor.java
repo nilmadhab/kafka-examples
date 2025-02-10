@@ -1,6 +1,7 @@
 package com.java.demospring.service;
 
 import java.util.Arrays;
+import org.apache.kafka.streams.kstream.KStreamUtils;
 import org.apache.kafka.streams.processor.api.Processor;
 import org.apache.kafka.streams.processor.api.ProcessorContext;
 import org.apache.kafka.streams.processor.api.Record;
@@ -36,6 +37,7 @@ public class WordCountProcessor implements Processor<String, String, Void, Void>
 
   @Override
   public void process(Record<String, String> record) {
+    //KStreamUtils.nilMapValues()
     String text = record.value();
     if (text != null) {
       Arrays.stream(text.toLowerCase().split("\\W+"))
