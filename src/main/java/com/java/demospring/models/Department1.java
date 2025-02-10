@@ -9,12 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Person {
+public class Department1 {
   private String id;
-  private String departmentId;
-  private Department department;
-
-  public static PersonBuilder toBuilder() {
-    return new PersonBuilder();
-  }
+  private String name;
 }

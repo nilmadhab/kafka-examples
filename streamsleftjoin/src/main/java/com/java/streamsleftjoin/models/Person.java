@@ -1,15 +1,21 @@
-package com.java.demospring.models;
+package com.java.streamsleftjoin.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Department {
+@Getter
+@Setter
+public class Person {
   private String id;
-  private String name;
+  private String departmentId;
+  private Department department;
+
 }

@@ -1,7 +1,7 @@
 package com.java.demospring.config;
 
-import com.java.demospring.models.Department;
-import com.java.demospring.models.Person;
+import com.java.demospring.models.Department1;
+import com.java.demospring.models.Person1;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.KStream;
@@ -80,49 +80,49 @@ public class KafkaStreamsConfig {
    */
 
     @Bean
-    public KStream<String, Person> kafkaStream(StreamsBuilder builder) {
+    public KStream<String, Person1> kafkaStream(StreamsBuilder builder) {
       // Define the departments table
-      KTable<String, Department> departments = builder.table(
+      KTable<String, Department1> departments = builder.table(
           "departments",
-          Materialized.<String, Department>as(Stores.persistentKeyValueStore("departments"))
+          Materialized.<String, Department1>as(Stores.persistentKeyValueStore("departments"))
               .withKeySerde(Serdes.String())
-              .withValueSerde(new JsonSerde<>(Department.class))
+              .withValueSerde(new JsonSerde<>(Department1.class))
       );
 
       // Define the persons table
-      KTable<String, Person> persons = builder.table(
+      KTable<String, Person1> persons = builder.table(
           "persons",
-          Materialized.<String, Person>as(Stores.persistentKeyValueStore("persons"))
+          Materialized.<String, Person1>as(Stores.persistentKeyValueStore("persons"))
               .withKeySerde(Serdes.String())
-              .withValueSerde(new JsonSerde<>(Person.class))
+              .withValueSerde(new JsonSerde<>(Person1.class))
       );
 
       // Perform the left join
-      KTable<String, Person> joined = persons.leftJoin(
+      KTable<String, Person1> joined = persons.leftJoin(
           departments,
-          Person::getDepartmentId,
+          Person1::getDepartmentId,
           (person, department) -> {
             if (department == null) {
-              return Person.builder()
+              return Person1.builder()
                   .id(person.getId()) // Ensure id is set
                   .departmentId(person.getDepartmentId()) // Ensure departmentId is set
                   .department(null)
                   .build();
             } else {
-              return Person.builder()
+              return Person1.builder()
                   .id(person.getId()) // Ensure id is set
                   .departmentId(person.getDepartmentId()) // Ensure departmentId is set
                   .department(department)
                   .build();
             }
           },
-          Materialized.<String, Person>as(Stores.persistentKeyValueStore("joined-results"))
+          Materialized.<String, Person1>as(Stores.persistentKeyValueStore("joined-results"))
               .withKeySerde(Serdes.String())
-              .withValueSerde(new JsonSerde<>(Person.class))
+              .withValueSerde(new JsonSerde<>(Person1.class))
       );
 
       // Write the joined results to an output topic
-      joined.toStream().to("joined-results", Produced.with(Serdes.String(), new JsonSerde<>(Person.class)));
+      joined.toStream().to("joined-results", Produced.with(Serdes.String(), new JsonSerde<>(Person1.class)));
 
       // Return the stream (optional, for further processing)
       return persons.toStream();

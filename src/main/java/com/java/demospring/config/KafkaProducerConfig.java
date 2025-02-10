@@ -1,7 +1,7 @@
 package com.java.demospring.config;
 
-import com.java.demospring.models.Department;
-import com.java.demospring.models.Person;
+import com.java.demospring.models.Department1;
+import com.java.demospring.models.Person1;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
   @Bean
-  public ProducerFactory<String, Department> departmentProducerFactory() {
+  public ProducerFactory<String, Department1> departmentProducerFactory() {
     Map<String, Object> configProps = new HashMap<>();
     configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -27,13 +27,13 @@ public class KafkaProducerConfig {
   }
 
   @Bean
-  public KafkaTemplate<String, Department> departmentKafkaTemplate() {
+  public KafkaTemplate<String, Department1> departmentKafkaTemplate() {
     return new KafkaTemplate<>(departmentProducerFactory());
   }
 
 
   @Bean
-  public ProducerFactory<String, Person> personProducerFactory() {
+  public ProducerFactory<String, Person1> personProducerFactory() {
     Map<String, Object> configProps = new HashMap<>();
     configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -42,7 +42,7 @@ public class KafkaProducerConfig {
   }
 
   @Bean
-  public KafkaTemplate<String, Person> personKafkaTemplate() {
+  public KafkaTemplate<String, Person1> personKafkaTemplate() {
     return new KafkaTemplate<>(personProducerFactory());
   }
 }
